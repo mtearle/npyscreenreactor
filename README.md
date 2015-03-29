@@ -25,6 +25,10 @@ the new npyscreen StandardApp.  The reactor is iterated by a event
 (and associated callback) placed on the npyscreen App Queue that is called 
 when the application processes it's event queue.
 
+## Requirements
+
+npyscreen 4.8.5 or later
+
 ## Author
 
 Mark Tearle <mark@tearle.com>
