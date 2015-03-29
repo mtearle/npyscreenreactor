@@ -8,7 +8,7 @@
 # Copyright (c) 2015 Mark Tearle <mark@tearle.com>
 
 """
-This module provides wxPython event loop support for Twisted.
+This module provides npyscreen event loop support for Twisted.
 
 In order to use this support, simply do the following::
 
@@ -21,27 +21,17 @@ Then, when your root npyscreenApp has been created::
     | reactor.registerNpyscreenApp(yourApp)
     | reactor.run()
 
-Then use twisted.internet APIs as usual. Stop the event loop using
-reactor.stop(), not yourApp.ExitMainLoop().
-
-IMPORTANT: tests will fail when run under this reactor. This is
-expected and probably does not reflect on the reactor's ability to run
-real applications.
+Then use twisted.internet APIs as usual. 
+Stop the event loop using reactor.stop()
 
 Maintainer: Mark Tearle
 """
 
-import sys
-
-import Queue
-
 from twisted.python import log, runtime
-#from twisted.internet import _threadedselect
 from twisted.internet import selectreactor
 
 import npyscreen
 
-#class NpyscreenReactor(_threadedselect.ThreadedSelectReactor):
 class NpyscreenReactor(selectreactor.SelectReactor):
     """
     npyscreen reactor.
@@ -51,7 +41,7 @@ class NpyscreenReactor(selectreactor.SelectReactor):
     def doIteration(self, timeout):
 	selectreactor.SelectReactor.doIteration(self, timeout)
 
-	# push event back on npyscreen queue
+	# push event back on the npyscreen queue
 	self.npyscreenapp.queue_event(npyscreen.Event("_NPYSCREEN_REACTOR"))
 
     def registerNpyscreenApp(self, npyscreenapp):
@@ -59,6 +49,7 @@ class NpyscreenReactor(selectreactor.SelectReactor):
         Register npyscreen.StandardApp instance with the reactor.
         """
         self.npyscreenapp = npyscreenapp
+	# push an event on the npyscreen queue
 	self.npyscreenapp.add_event_hander("_NPYSCREEN_REACTOR", self._twisted_events)
 
     def _twisted_events(self, event):
