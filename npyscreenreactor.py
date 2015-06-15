@@ -39,6 +39,9 @@ class NpyscreenReactor(selectreactor.SelectReactor):
     npyscreen drives the event loop
     """
     def doIteration(self, timeout):
+	# Executing what normal reactor would do...
+	self.runUntilCurrent()
+
 	selectreactor.SelectReactor.doIteration(self, timeout)
 
 	# push event back on the npyscreen queue
@@ -64,15 +67,18 @@ class NpyscreenReactor(selectreactor.SelectReactor):
         if hasattr(self, "npyscreenapp"):
             self.npyscreenapp.setNextForm(None)
 
-    def run(self):
+    def run(self,installSignalHandlers=True):
         """
         Start the reactor.
         """
+	# Executing what normal reactor would do...
+	self.startRunning(installSignalHandlers=installSignalHandlers)
+ 
+	# do initial iteration and put event on queue to do twisted things 
+	self.doIteration(0)
+
         # add cleanup events:
         self.addSystemEventTrigger("after", "shutdown", self._stopNpyscreen)
-
-	# put event on queue to do twisted things 
-	self.npyscreenapp.queue_event(npyscreen.Event("_NPYSCREEN_REACTOR"))
 
 	#
         self.npyscreenapp.run()
