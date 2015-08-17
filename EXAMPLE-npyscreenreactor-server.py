@@ -10,17 +10,11 @@ import curses
 from twisted.internet import protocol
 import npyscreenreactor
 
-# Incorporates code
-# from http://www.binarytides.com/python-socket-server-code-example/
-# Socket server in python using select function
-import socket, select
-
 class MyTestApp(npyscreen.StandardApp):
     def updateFields(self, received="", sent=""):
 	self.sent = sent
 	self.received = received
 
-    # socket code
     def onStart(self):
 	self.keypress_timeout_default = 1
         self.addForm("MAIN",       MainForm, name="EXAMPLE-npyscreenreactor", color="IMPORTANT",)
