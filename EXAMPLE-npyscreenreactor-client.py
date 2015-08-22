@@ -1,4 +1,16 @@
 #!/usr/bin/env python
+
+# EXAMPLE-npyscreenreactor-client.py
+
+# This examples connects to localhost on port 5000
+# 
+# This can either be 
+#    EXAMPLE-npyscreenreactor-server.py
+# or
+#    netcat:
+#
+#        nc -l 127.0.0.1 5000
+
 import curses
 
 import npyscreen
@@ -101,11 +113,6 @@ class TestApp(npyscreen.StandardApp):
     def set_instance(self,instance):
 	self.instance = instance
 
-#    def main(self):
-#        
-#        self.F.edit()
-
-
 if __name__ == "__main__":
     App = TestApp()
     reactor = npyscreenreactor.install()
@@ -115,19 +122,5 @@ if __name__ == "__main__":
         reactor.run()
     finally:
         reactor.stop()
-
-
-####
-
-# look at
-# https://code.google.com/p/twisted-chat-example/source/browse/chatclient.py
-
-
-#Spawn nc -lk 127.0.0.1 2000
-
-#Spawn nc -l 127.0.0.1 2000
-#on connection made you should see 'test line'
-#on every COMMAND:VALUE from nc ('\r\n') , the VALUE should endup in npyscreen widget 'MSG'
-
 
 
