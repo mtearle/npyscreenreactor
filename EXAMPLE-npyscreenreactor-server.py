@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 
-# EXAMPLE using npyscreenreactor
+# EXAMPLE-npyscreenreactor-server.py
+
+# This example binds to localhost and listens on port 5000
+#
+# Any text received is responded with an "OK .. " followed by the text
+#
 
 import npyscreen
 import curses
