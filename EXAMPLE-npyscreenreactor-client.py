@@ -27,9 +27,10 @@ class TestProtocol(LineReceiver):
         self.app = app
 
     def connectionMade(self):
+	self.app.connected = True
         line='Connection made.' 
         self.app.line_to_buffer(line)
-	self.sendLine("Connection from example .... ")
+	#self.sendLine("Connection from example .... ")
 
     def lineReceived(self,line):
 	self.app.line_to_buffer(line)
@@ -41,7 +42,6 @@ class TestClientFactory(protocol.ClientFactory):
  
     def startedConnecting(self, connector):
         line='Started connecting'
-	print line
 	#self.app.line_to_buffer(line)
 
     def buildProtocol(self, addr):
@@ -53,11 +53,15 @@ class TestClientFactory(protocol.ClientFactory):
         return self.instance
 
     def clientConnectionLost(self, connector, reason):
-        line='Lost connection.  Reason: %s' % reason
+	self.app.connected = False
+	self.app.connector = connector
+        line='Lost connection.  Reason: %s\n' % reason
         self.app.line_to_buffer(line)
 
     def clientConnectionFailed(self, connector, reason):
-        line='Connection failed. Reason: %s' % reason
+	self.app.connected = False
+	self.app.connector = connector
+        line='Connection failed. Reason: %s\n' % reason
         self.app.line_to_buffer(line)
 
 
@@ -72,8 +76,11 @@ class EditorFormExample(npyscreen.FormMutt):
 		})
 
     def do_line(self,name):
-	self.parentApp.process_line()
-	self.display()
+	if not self.parentApp.connected:
+		self.parentApp.connector.connect()
+	else:
+		self.parentApp.process_line()
+		self.display()
   
     def afterEditing(self):
         self.parentApp.switchForm(None)
@@ -83,6 +90,8 @@ class TestApp(npyscreen.StandardApp):
         npyscreen.notify_wait("Goodbye!")
 
     def onStart(self):
+	self.connected = False
+	self.connector = None
         factory = TestClientFactory(App)
         factory.protocol = TestProtocol
         self.reactor.connectTCP("127.0.0.1",5000,factory)
@@ -90,6 +99,9 @@ class TestApp(npyscreen.StandardApp):
         self.F.wStatus1.value = "Status Line "
         self.F.wStatus2.value = "Enter text to send ...."
 	self.line_to_buffer("Hello cruel world ...")
+	# set initial focus
+	# how to do this?
+	
 
     def when_exit(self,val):
         self.parentApp.switchForm(None)
