@@ -28,9 +28,8 @@ class TestProtocol(LineReceiver):
 
     def connectionMade(self):
 	self.app.connected = True
-        line='Connection made.' 
-        self.app.line_to_buffer(line)
-	#self.sendLine("Connection from example .... ")
+        line='Connection made.\n\n' 
+        self.app.lines_to_buffer(line)
 
     def lineReceived(self,line):
 	self.app.line_to_buffer(line)
@@ -55,14 +54,14 @@ class TestClientFactory(protocol.ClientFactory):
     def clientConnectionLost(self, connector, reason):
 	self.app.connected = False
 	self.app.connector = connector
-        line='Lost connection.  Reason: %s\n' % reason
-        self.app.line_to_buffer(line)
+        line='Lost connection.\n  Reason: %s\n' % reason
+        self.app.lines_to_buffer(line)
 
     def clientConnectionFailed(self, connector, reason):
 	self.app.connected = False
 	self.app.connector = connector
-        line='Connection failed. Reason: %s\n' % reason
-        self.app.line_to_buffer(line)
+        line='Connection failed.\n Reason: %s\n' % reason
+        self.app.lines_to_buffer(line)
 
 
 class EditorFormExample(npyscreen.FormMutt):
@@ -92,19 +91,39 @@ class TestApp(npyscreen.StandardApp):
     def onStart(self):
 	self.connected = False
 	self.connector = None
+
+	# connection details
+	host = "127.0.0.1"
+	port = 5000
+
+	intro="""
+%s
+
+Welcome to the twisted npyscreen reactor client example.
+
+Type ^Q to exit, hit ENTER to (re) connect
+
+Connecting to %s on %s
+...
+""" % (__file__, host, port)
+
         factory = TestClientFactory(App)
         factory.protocol = TestProtocol
-        self.reactor.connectTCP("127.0.0.1",5000,factory)
+        self.reactor.connectTCP(host,port,factory)
         self.F = self.addForm('MAIN', EditorFormExample)
         self.F.wStatus1.value = "Status Line "
         self.F.wStatus2.value = "Enter text to send ...."
-	self.line_to_buffer("Hello cruel world ...")
+	self.lines_to_buffer(intro)
 	# set initial focus
 	# how to do this?
 	
 
     def when_exit(self,val):
         self.parentApp.switchForm(None)
+
+    def lines_to_buffer(self, lines):
+	for line in lines.split("\n"):
+		self.line_to_buffer(line)
 
     def line_to_buffer(self, line):
 	self.F.wMain.buffer((line,))
