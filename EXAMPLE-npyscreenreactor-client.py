@@ -72,6 +72,10 @@ class EditorFormExample(npyscreen.FormMutt):
 	self.wCommand.add_handlers({
 			curses.ascii.NL : self.do_line,
 			curses.ascii.CR : self.do_line,
+			"^Q" : self.exit_application,
+		})
+	self.wMain.add_handlers({
+			"^Q" : self.exit_application,
 		})
 
     def do_line(self,name):
@@ -82,6 +86,10 @@ class EditorFormExample(npyscreen.FormMutt):
 		self.display()
   
     def afterEditing(self):
+        self.parentApp.switchForm(None)
+
+    def exit_application(self,name):
+        self.parentApp.line_to_buffer("Quitting...")
         self.parentApp.switchForm(None)
 
 class TestApp(npyscreen.StandardApp):
