@@ -27,7 +27,6 @@ class TestProtocol(LineReceiver):
         self.app = app
 
     def connectionMade(self):
-	self.app.connected = True
         line='Connection made.\n\n' 
         self.app.lines_to_buffer(line)
 
@@ -41,6 +40,7 @@ class TestClientFactory(protocol.ClientFactory):
  
     def startedConnecting(self, connector):
         line='Started connecting'
+	self.app.connector = connector
 	#self.app.line_to_buffer(line)
 
     def buildProtocol(self, addr):
@@ -52,13 +52,11 @@ class TestClientFactory(protocol.ClientFactory):
         return self.instance
 
     def clientConnectionLost(self, connector, reason):
-	self.app.connected = False
 	self.app.connector = connector
         line='Lost connection.\n  Reason: %s\n' % reason
         self.app.lines_to_buffer(line)
 
     def clientConnectionFailed(self, connector, reason):
-	self.app.connected = False
 	self.app.connector = connector
         line='Connection failed.\n Reason: %s\n' % reason
         self.app.lines_to_buffer(line)
@@ -79,8 +77,10 @@ class EditorFormExample(npyscreen.FormMutt):
 		})
 
     def do_line(self,name):
-	if not self.parentApp.connected:
+	if self.parentApp.connector.state == "disconnected":
 		self.parentApp.connector.connect()
+	elif self.parentApp.connector.state == "connecting":
+		pass
 	else:
 		self.parentApp.process_line()
 		self.display()
@@ -97,7 +97,6 @@ class TestApp(npyscreen.StandardApp):
         npyscreen.notify_wait("Goodbye!")
 
     def onStart(self):
-	self.connected = False
 	self.connector = None
 
 	# connection details
