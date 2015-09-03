@@ -53,12 +53,22 @@ class TestClientFactory(protocol.ClientFactory):
 
     def clientConnectionLost(self, connector, reason):
 	self.app.connector = connector
-        line='Lost connection.\n  Reason: %s\n' % reason
+        line="""
+Lost connection.
+Reason: %s
+
+Type ^Q to exit, hit ENTER to (re) connect
+""" % reason
         self.app.lines_to_buffer(line)
 
     def clientConnectionFailed(self, connector, reason):
 	self.app.connector = connector
-        line='Connection failed.\n Reason: %s\n' % reason
+        line="""
+Connection failed.
+Reason: %s
+
+Type ^Q to exit, hit ENTER to (re) connect
+""" % reason
         self.app.lines_to_buffer(line)
 
 
