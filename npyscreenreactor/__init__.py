@@ -5,7 +5,9 @@
 # Inspired by pausingreactor.py and xmmsreactor.py
 
 # npyscreen modifications
+
 # Copyright (c) 2015 Mark Tearle <mark@tearle.com>
+# See LICENSE for details.
 
 """
 This module provides npyscreen event loop support for Twisted.

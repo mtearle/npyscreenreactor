@@ -2,6 +2,9 @@
 
 # EXAMPLE-npyscreenreactor-client.py
 
+# Copyright (c) 2015 Mark Tearle <mark@tearle.com>
+# See LICENSE for details.
+
 # This examples connects to localhost on port 5000
 # 
 # This can either be 

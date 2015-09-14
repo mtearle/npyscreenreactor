@@ -2,6 +2,9 @@
 
 # EXAMPLE-npyscreenreactor-server.py
 
+# Copyright (c) 2015 Mark Tearle <mark@tearle.com>
+# See LICENSE for details.
+
 # This example binds to localhost and listens on port 5000
 #
 # Any text received is responded with an "OK .. " followed by the text
