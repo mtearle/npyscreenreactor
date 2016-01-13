@@ -10,6 +10,8 @@
 # Any text received is responded with an "OK .. " followed by the text
 #
 
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
+
 import npyscreen
 import curses
 

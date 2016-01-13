@@ -9,6 +9,8 @@
 # Copyright (c) 2015 Mark Tearle <mark@tearle.com>
 # See LICENSE for details.
 
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
+
 """
 This module provides npyscreen event loop support for Twisted.
 

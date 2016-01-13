@@ -14,6 +14,8 @@
 #
 #        nc -l 127.0.0.1 5000
 
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
+
 import curses
 
 import npyscreen
@@ -173,5 +175,4 @@ if __name__ == "__main__":
         reactor.run()
     finally:
         reactor.stop()
-
 

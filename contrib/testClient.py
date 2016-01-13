@@ -9,6 +9,7 @@ from twisted.protocols.basic import LineReceiver
 #on connection made you should see 'test line'
 #on every COMMAND:VALUE from nc ('\r\n') , the VALUE should endup in npyscreen widget 'MSG'
 
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
 class TestApp(npyscreen.StandardApp):
 
