@@ -61,11 +61,17 @@ class MainForm(npyscreen.ActionForm):
 
 class Echo(protocol.Protocol):
     """This is just about the simplest possible protocol"""
+
+    # helper method to do for python 3 unicode handling
+    def writeToTransport(self, response):
+        self.transport.write(response.encode("ascii"))
         
     def dataReceived(self, data):
         "As soon as any data is received, write it back."
-        response = 'OK ... ' + data
-        self.transport.write(response)
+
+	# for python 3, decode ascii stream to unicode
+        response = 'OK ... ' + data.decode("ascii")
+        self.writeToTransport(response)
 
         # update fields
         self.factory.app.updateFields(data,response)
@@ -74,7 +80,7 @@ class Echo(protocol.Protocol):
         response = "OK ... Hello there ...\n"
         data = "Connection from " + str(self.transport.getPeer())
 
-        self.transport.write(response)
+        self.writeToTransport(response)
         self.factory.app.updateFields(data,response)
 
 class EchoFactory(protocol.Factory):
