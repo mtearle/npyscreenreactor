@@ -36,7 +36,7 @@ class TestProtocol(LineReceiver):
         self.app.lines_to_buffer(line)
 
     def lineReceived(self,line):
-        self.app.line_to_buffer(line)
+        self.app.line_to_buffer(line.decode("ascii"))
 
 class TestClientFactory(protocol.ClientFactory):
     def __init__(self,app):
@@ -51,7 +51,7 @@ class TestClientFactory(protocol.ClientFactory):
     def buildProtocol(self, addr):
         line='Building protocol'
         self.instance = self.protocol(self.app)
-        self.instance.delimiter = "\n"
+        self.instance.delimiter = b'\n'
         self.app.set_instance(self.instance)
         self.instance.setLineMode()
         return self.instance
@@ -152,7 +152,7 @@ Connecting to %s on %s
         self.F.display()
         
     def process_line(self):
-        self.instance.sendLine(self.F.wCommand.value)
+        self.instance.sendLine(self.F.wCommand.value.encode("ascii"))
         self.line_to_buffer(self.F.wCommand.value)
         self.F.wCommand.value = ""
         self.F.display()
