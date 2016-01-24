@@ -28,7 +28,10 @@ when the application processes it's event queue.
 ## Examples
 
 There are two examples for the reactor provided; one a client, the other
-a server.    They work together but can be run independently.
+a server.    They work together but can be run independently.   
+
+Both examples are based on the Twisted LineReceiver protocol, and transmit
+with an ascii encoding over the wire.
 
 ### EXAMPLE-npyscreenreactor-server.py
 
@@ -47,6 +50,10 @@ basis is displayed in the main pane.
 ## Contributions
 
 Further contributions of examples are encouraged.
+
+## Support
+
+The reactor and examples should work in both Python 2 and Python 3
 
 ## Requirements
 
