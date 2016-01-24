@@ -7,12 +7,13 @@
 
 # This examples connects to localhost on port 5000
 # 
-# This can either be 
-#    EXAMPLE-npyscreenreactor-server.py
-# or
-#    netcat:
+# This can either be the matching server example:
 #
-#        nc -l 127.0.0.1 5000
+#	EXAMPLE-npyscreenreactor-server.py
+#
+# or netcat:
+#
+#	nc -l -p 5000 127.0.0.1
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
