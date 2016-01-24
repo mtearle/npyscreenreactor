@@ -27,7 +27,7 @@ class MyTestApp(npyscreen.StandardApp):
 
     def onStart(self):
         self.keypress_timeout_default = 1
-        self.addForm("MAIN",       MainForm, name="EXAMPLE-npyscreenreactor", color="IMPORTANT",)
+        self.addForm("MAIN",       MainForm, name="EXAMPLE-npyscreenreactor-server", color="IMPORTANT",)
         self.sent=""
         self.currentform = None
 
