@@ -69,12 +69,14 @@ class Echo(protocol.Protocol):
     def dataReceived(self, data):
         "As soon as any data is received, write it back."
 
-	# for python 3, decode ascii stream to unicode
-        response = 'OK ... ' + data.decode("ascii")
+        # for python 3, decode ascii stream to unicode
+        message = data.decode("ascii")
+
+        response = 'OK ... ' + message
         self.writeToTransport(response)
 
         # update fields
-        self.factory.app.updateFields(data,response)
+        self.factory.app.updateFields(message,response)
      
     def connectionMade(self):
         response = "OK ... Hello there ...\n"
