@@ -1,6 +1,6 @@
 # twisted-reactor-npyscreen
 
-##Twisted Reactor for npyscreen
+## Twisted Reactor for npyscreen
 
 In order to use this code, simply do the following::
 
@@ -18,7 +18,7 @@ Then, when your root npyscreenApp has been created::
 Then use twisted.internet APIs as usual. 
 Stop the event loop using reactor.stop()
 
-##Code Explanation
+## Code Explanation
 
 The reactor subclasses Twisted's SelectReactor.  It requires use of
 the new npyscreen StandardApp.  The reactor is iterated by a event 
